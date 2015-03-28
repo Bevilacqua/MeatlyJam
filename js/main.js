@@ -105,7 +105,7 @@ main.prototype = {
 }
 
 var reduceHours = function(reason) {
-    hoursLeft--;
+    hoursLeft-=10;
     
     if(left) {
         log_string = log_string + "\t" + "- 1hr. for " + reason;
@@ -127,4 +127,6 @@ var reduceHours = function(reason) {
     }
     
     log_text.text = log_string;
+    
+    if(hoursLeft <= 0) state_game.state.start('over');
 }
