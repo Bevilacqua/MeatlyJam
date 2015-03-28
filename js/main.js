@@ -105,7 +105,7 @@ main.prototype = {
 }
 
 var reduceHours = function(reason) {
-    hoursLeft-=10;
+    hoursLeft--;
     
     if(left) {
         log_string = log_string + "\t" + "- 1hr. for " + reason;
