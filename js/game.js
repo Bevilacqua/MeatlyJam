@@ -1,16 +1,7 @@
-var game = new Phaser.Game(1000 , 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+(function() {
+    var game = new Phaser.Game(1000 , 600 , Phaser.AUTO , '');
+    game.state.add('setup' , setup);
+    game.state.add('main' , main)
+    game.state.start('setup'); 
+})();
 
-function init() {
-    game.scale.pageAlignHorizontally = true;
-    game.scale.refresh();
-}
-
-function preload() {
-    init();
-}
-
-function create() {
-}
-
-function update() {
-}
