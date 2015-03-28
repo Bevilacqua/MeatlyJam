@@ -6,6 +6,7 @@ setup.prototype = {
         console.log("Setting up game...");
         this.game.scale.pageAlignHorizontally = true;
         this.game.scale.refresh();
+        
         console.log("Game setup.");
         this.game.state.start('main');
     },
