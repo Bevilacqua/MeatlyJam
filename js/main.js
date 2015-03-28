@@ -2,6 +2,7 @@ var main = function(game) {
 };
 
 var object_computer , object_floor;
+var body_computer;
 var objects;
 var player;
 var background;
@@ -37,10 +38,13 @@ main.prototype = {
         object_computer = this.game.add.sprite(this.game.width - 128 , this.game.height -128 , 'meatly');
         object_computer.animations.add('single' , [49]);
         object_computer.animations.play('single' , 1);
+        object_computer.enableBody = true;
+        object_computer.body.setSize(128,128);
+        this.game.physics.arcade.enable(object_computer);
+        object_computer.body.collideWorldBounds = true;
         objects.add(object_computer);
-        
-        objects.enableBody = true;
-        objects.body.immovable = true; //TODO: WHY DOESNT THIS WORK!!!!
+
+        objects.immovable = true; //TODO: WHY DOESNT THIS WORK!!!!
         
 /*        
         object_floor = this.game.add.sprite(0, this.game.height - 160, 'floor');
