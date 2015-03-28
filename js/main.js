@@ -96,7 +96,7 @@ main.prototype = {
         if(!idea_generated) {
             player.animations.play('idle');
             if(startKey.isDown) {
-                reduceHours("idea");
+                reduceHours(1, "idea");
                 var rand = state_game.rnd.integerInRange(0, 10);
                 
                 switch(rand) {
@@ -163,7 +163,7 @@ main.prototype = {
             code_display.animations.add('code' , [1 , 2 , 3 , 0] , 2 , false);
             code_display.animations.play('code');
             code_points++;
-            reduceHours("coding");
+            reduceHours(state_game.rnd.integerInRange(1, 3) , "coding");
             player.animations.play('code');
         });
         
@@ -179,21 +179,21 @@ main.prototype = {
             
             art_display.animations.play('art');
             art_points++;
-            reduceHours("art");
+            reduceHours(state_game.rnd.integerInRange(1, 3) , "art");
             player.animations.play('code');
         });
         
     }
 }
 
-var reduceHours = function(reason) {
-    hoursLeft--;
+var reduceHours = function(amount , reason) {
+    hoursLeft-= amount;
     player.x = (state_game.width / 2);
     if(left) {
-        log_string = log_string + "\t" + "- 1hr. for " + reason;
+        log_string = log_string + "\t" + "- " + amount +"hr. for " + reason;
         left = false;
     } else {
-        log_string = log_string + "\n" + "- 1hr. for " + reason; 
+        log_string = log_string + "\n" + "- " + amount + "hr. for " + reason; 
         left = true;
     }
     
