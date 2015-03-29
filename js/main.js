@@ -15,6 +15,7 @@ var idea = "";
 var hoursLeft = 48;
 var code_points = 0;
 var art_points = 0;
+var sleep_points = 0;
 
 var hoursLeft_text;
 var start_text;
@@ -47,8 +48,8 @@ main.prototype = {
         player = this.game.add.sprite((this.game.width / 2) ,this.game.height,'meatly');
         player.anchor.set(.5);
         player.animations.add('idle', [16 , 17 , 19] , .3 , true);
-        player.animations.add('left', [0 , 1 , 2 , 3 , 4 , 5 , 6 , 7] , 11 , true);
-        player.animations.add('right', [15 , 14 , 13 , 12 , 11 , 10 , 9 , 8] , 11 , true);
+        player.animations.add('left', [0 , 1 , 2 , 3 , 4 , 5 , 6 , 7] , 13 , true);
+        player.animations.add('right', [15 , 14 , 13 , 12 , 11 , 10 , 9 , 8] , 13 , true);
         player.animations.add('code' , [17 , 21 , 17] , .6 , true)
         this.game.physics.arcade.enable(player);
         player.body.gravity.y = 300;
@@ -148,10 +149,10 @@ main.prototype = {
         hoursLeft_text.text = "Hours left: " + hoursLeft;
         
         if(cursors.left.isDown) {
-            player.body.velocity.x = -200;
+            player.body.velocity.x = -300;
             player.animations.play('left');
         } else if(cursors.right.isDown) {
-            player.body.velocity.x = 200;
+            player.body.velocity.x = 300;
             player.animations.play('right');
         } else {
             player.body.velocity.x = 0;
@@ -162,8 +163,9 @@ main.prototype = {
             code_display = state_game.add.sprite(state_game.width - 300,0,'code');
             code_display.animations.add('code' , [1 , 2 , 3 , 0] , 2 , false);
             code_display.animations.play('code');
-            code_points++;
-            reduceHours(state_game.rnd.integerInRange(1, 3) , "coding");
+            var points = state_game.rnd.integerInRange(1, 3);
+            code_points+= points;
+            reduceHours(points , "code");
             player.animations.play('code');
         });
         
@@ -178,8 +180,9 @@ main.prototype = {
                 art_display.animations.add('art' , [0,1,2,3] , 2 , false);
             
             art_display.animations.play('art');
-            art_points++;
-            reduceHours(state_game.rnd.integerInRange(1, 3) , "art");
+            var points = state_game.rnd.integerInRange(1, 3);
+            art_points+= points;
+            reduceHours(points , "art");
             player.animations.play('code');
         });
         
@@ -199,6 +202,7 @@ var reduceHours = function(amount , reason) {
     
     if(hoursLeft % 5 == 0 && hoursLeft != 5) {
         hoursLeft -=2; //For sleep
+        sleep_points += 2;
         if(left) {
         log_string = log_string + "\t" + "- 2hr. for sleep";
         left = false;
@@ -206,9 +210,16 @@ var reduceHours = function(amount , reason) {
         log_string = log_string + "\n" + "- 2hr. for sleep";
         left = true;
     }
-    }
+}
     
     log_text.text = log_string;
     
-    if(hoursLeft <= 0) state_game.state.start('over');
+    if(hoursLeft <= 0) {
+        state_game.global.code = code_points;
+        state_game.global.art = art_points;
+        state_game.global.sleep = sleep_points;
+        console.log("ter");
+        console.log("Code: " + state_game.global.code + " Art: " + state_game.global.art + " Sleep: " + state_game.global.sleep);
+        state_game.state.start('over');
+    }
 }
